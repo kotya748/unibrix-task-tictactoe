@@ -2,7 +2,8 @@
 const cellElements = document.getElementsByClassName("board__cell");
 const cellElementsClass = document.getElementsByClassName("board__cell");
 
-const gameBoard = document.getElementById("board");
+this.restart = document.restart;
+const gameBoard = document.getElementById("winMesage");
 const winningMessageELement = document.getElementById("victory-window");
 const restartButton = document.getElementById("restart-button");
 const winningMessageTextELement = document.getElementById(
@@ -25,14 +26,14 @@ const winningCombinations = [
     [2, 4, 6],
 ];
 
-let isPlayerTwoTurn = false;
+let playerTwoTurn = false;
 
 startGame();
 
 restartButton.addEventListener("click", startGame);
 
 function startGame() {
-    isPlayerTwoTurn = false;
+    playerTwoTurn = false;
     resetBoardCells([...cellElements]);
     setBoardHoverClass();
     winningMessageELement.classList.remove("show");
@@ -42,36 +43,13 @@ function resetBoardCells(cellsArray) {
     cellsArray.forEach((cell) => {
         cell.classList.remove(playerOneClassName);
         cell.classList.remove(playerTwoClassName);
-        cell.addEventListener("mouseover", hoverCell);
-        cell.addEventListener("mouseleave", unhoverCell);
         cell.addEventListener("click", handleClick, { once: true });
     });
 }
 
-function hoverCell(event) {
-    const cell = event.target;
-    if (
-        cell.classList.contains("player-one") ||
-        cell.classList.contains("player-two")
-    ) {
-        return;
-    }
-
-    if (gameBoard.classList.contains("player-one")) {
-        cell.classList.add("board-hovered", "board-hovered_player-one");
-    } else {
-        cell.classList.add("board-hovered", "board-hovered_player-two");
-    }
-}
-
-function unhoverCell(event) {
-    event.classList.remove("board-hovered", "board-hovered_player-one");
-}
-
 function handleClick(e) {
-    console.log("hello");
     const cell = e.target;
-    const currentClass = isPlayerTwoTurn
+    const currentClass = isPlayerTwoTurn // ?
         ? playerTwoClassName
         : playerOneClassName;
 
@@ -96,16 +74,14 @@ function placeMark(cell, currentClass) {
 }
 
 function checkWin(currentClass) {
-    return winningCombinations.some((winCombination) =>
-        checkWinCombination(winCombination, currentClass)
-    );
-}
-
-function checkWinCombination(combination, currentClass) {
-    return combination.every((cellIndex) => {
-        return cellElements[cellIndex].classList.contains(currentClass);
+    return winningCombinations.some((combination) => {
+        return combination.every((index) => {
+            return cellElements[index].classList.contains(currentClass);
+        });
     });
 }
+
+function checkWinCombination()
 
 function swapTurns() {
     isPlayerTwoTurn = !isPlayerTwoTurn;
@@ -113,15 +89,12 @@ function swapTurns() {
 
 function setBoardHoverClass() {
     cleanBoard();
-    // isPlayerTwoTurn(playerTwoTurn);
     if (isPlayerTwoTurn) {
         gameBoard.classList.add(playerTwoClassName);
     } else {
         gameBoard.classList.add(playerOneClassName);
     }
 }
-
-function isPlayerTwoTurn(playerTwoTurn) {}
 
 function cleanBoard() {
     gameBoard.classList.remove(playerOneClassName);
@@ -147,3 +120,32 @@ function isDraw() {
         );
     });
 }
+
+
+// ---------------------------------------------------> OOP
+
+class Player {
+    countOfSelectedCells = 0;
+    // ^ ++ on cell click
+    constructor(args) {
+        this.name = args.name;
+        this.cssClassName = args.cssClassName;
+    }
+
+    getCountOfSelectedCells() {
+        return this.countOfSelectedCells;
+    }
+}
+
+class GameBoard {
+    winMessage = document.getElementById("victory-window");
+    // constructor(document) {
+    //     // this.document = document;
+    // }
+
+    startGame() {
+        //
+    }
+
+}
+

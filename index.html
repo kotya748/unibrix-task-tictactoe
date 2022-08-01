@@ -7,24 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    
+    <!-- <script src="./script-oop.js" defer></script> -->
+    <script src="./script.js" defer></script>
+
     <title>Unibrix-task-tictactoe</title>
 </head>
 
 <body>
     <div class="board" id="board">
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
-        <div class="board__cell" data-cell></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
+        <div class="board__cell"></div>
     </div>
     <div class="victory-window" id="victory-window">
-        <div class="victory-window__message" data-winning-message></div>
+        <div class="victory-window__message" id="data-winning-message"></div>
         <button class="victory-window__button" id="restart-button">Restart</button>
     </div>
 </body>

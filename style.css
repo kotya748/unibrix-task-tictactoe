@@ -5,8 +5,9 @@
 }
 
 :root {
-    --cell-size: 30vh;
-    --mark-size: calc(var(--cell-size) * 0.9);
+    --cell-height: 30vh;
+    --cell-width: 30vh;
+    --mark-size: calc(var(--cell-height) * 0.9);
 }
 
 body {
@@ -27,8 +28,8 @@ body {
 }
 
 .board__cell {
-    width: var(--cell-size);
-    height: var(--cell-size);
+    width: var(--cell-height);
+    height: var(--cell-width);
     border: 1px dotted black;
 
     display: flex;
@@ -39,62 +40,51 @@ body {
     cursor: pointer;
 }
 
-.board__cell.x::after,
-.board__cell.x::before,
-.board.x .board__cell:not(.x):not(.o):hover::after,
-.board.x .board__cell:not(.x):not(.o):hover::before {
-    position: absolute;
-    content: "";
-    width: calc(var(--mark-size) * 0.15);
-    height: var(--mark-size);
-    background-color: black;
-    cursor: not-allowed;
-}
-
-.board__cell.x::before,
-.board.x .board__cell:not(.x):not(.o):hover::before {
-    transform: rotate(45deg);
-}
-
-.board__cell.x::after,
-.board.x .board__cell:not(.x):not(.o):hover::after {
-    transform: rotate(-45deg);
-}
-
-.board__cell.o::after,
-.board__cell.o::before,
-.board.o .board__cell:not(.x):not(.o):hover::before,
-.board.o .board__cell:not(.x):not(.o):hover::after {
-    position: absolute;
-    content: "";
-
-    border-radius: 50%;
-    background-color: black;
-    cursor: not-allowed;
-}
-
-.board__cell.o::before,
-.board.o .board__cell:not(.x):not(.o):hover::before {
-    width: var(--mark-size);
-    height: var(--mark-size);
-}
-
-.board__cell.o::after,
-.board.o .board__cell:not(.x):not(.o):hover::after {
-    width: calc(var(--mark-size) * 0.7);
-    height: calc(var(--mark-size) * 0.7);
-    background-color: white;
-}
-
-.board.o .board__cell:not(.x):not(.o):hover::before,
-.board.x .board__cell:not(.x):not(.o):hover::before,
-.board.x .board__cell:not(.x):not(.o):hover::after {
+.board-hovered {
     background-color: lightgray;
-    cursor: pointer;
+    background-size: var(--mark-size) var(--mark-size);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.board.o .board__cell:not(.x):not(.o):hover::after {
-    cursor: pointer;
+.board-hovered_player-one {
+    background-image: url(./assets/media/x-symbol.svg);
+}
+
+.board-hovered_player-two {
+    background-image: url(./assets/media/circle-symbol.svg);
+}
+
+/* .board.player-one .board__cell:not(.player-one):not(.player-two):hover,
+.board.player-two .board__cell:not(.player-one):not(.player-two):hover {
+    background-color: lightgray;
+    background-size: var(--mark-size) var(--mark-size);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.board.player-one .board__cell:not(.player-one):not(.player-two):hover {
+    background-image: url(./assets/media/x-symbol.svg);
+}
+
+.board.player-two .board__cell:not(.player-one):not(.player-two):hover {
+    background-image: url(./assets/media/circle-symbol.svg);
+} */
+
+.board__cell.player-one {
+    background-image: url(./assets/media/x-symbol.svg);
+    background-size: var(--mark-size) var(--mark-size);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: not-allowed;
+}
+
+.board__cell.player-two {
+    background-image: url(./assets/media/circle-symbol.svg);
+    background-size: var(--mark-size) var(--mark-size);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: not-allowed;
 }
 
 .victory-window {
@@ -115,6 +105,10 @@ body {
 
 .victory-window.show {
     display: flex;
+}
+
+.victory-window__message {
+    text-align: center;
 }
 
 .victory-window__button {
