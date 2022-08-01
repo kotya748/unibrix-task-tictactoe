@@ -9,6 +9,8 @@ const winningMessageTextELement = document.getElementById(
     "data-winning-message"
 );
 
+const playerOneHoveredClass = "board-hovered_player-one";
+const playerTwoHoveredClass = "board-hovered_player-two";
 const playerOneClassName = "player-one";
 const playerTwoClassName = "player-two";
 const playerTwoName = "Player Two";
@@ -32,16 +34,17 @@ startGame();
 restartButton.addEventListener("click", startGame);
 
 function startGame() {
+    winningMessageELement.classList.remove("show");
     isPlayerTwoTurn = false;
     resetBoardCells([...cellElements]);
     setBoardHoverClass();
-    winningMessageELement.classList.remove("show");
 }
 
 function resetBoardCells(cellsArray) {
     cellsArray.forEach((cell) => {
         cell.classList.remove(playerOneClassName);
         cell.classList.remove(playerTwoClassName);
+
         cell.addEventListener("mouseover", hoverCell);
         cell.addEventListener("mouseleave", unhoverCell);
         cell.addEventListener("click", handleClick, { once: true });
@@ -56,16 +59,26 @@ function hoverCell(event) {
     ) {
         return;
     }
-
-    if (gameBoard.classList.contains("player-one")) {
-        cell.classList.add("board-hovered", "board-hovered_player-one");
-    } else {
-        cell.classList.add("board-hovered", "board-hovered_player-two");
-    }
+    cell.classList.add(
+        "board-hovered",
+        `${isPlayerTwoTurn ? playerTwoHoveredClass : playerOneHoveredClass}`
+    );
 }
 
 function unhoverCell(event) {
-    event.classList.remove("board-hovered", "board-hovered_player-one");
+    const cell = event.target;
+    if (cell.classList.contains("board-hovered_player-one")) {
+        event.target.classList.remove(
+            "board-hovered",
+            "board-hovered_player-one"
+        );
+    }
+    if (cell.classList.contains("board-hovered_player-two")) {
+        event.target.classList.remove(
+            "board-hovered",
+            "board-hovered_player-two"
+        );
+    }
 }
 
 function handleClick(e) {
@@ -113,15 +126,12 @@ function swapTurns() {
 
 function setBoardHoverClass() {
     cleanBoard();
-    // isPlayerTwoTurn(playerTwoTurn);
     if (isPlayerTwoTurn) {
         gameBoard.classList.add(playerTwoClassName);
     } else {
         gameBoard.classList.add(playerOneClassName);
     }
 }
-
-function isPlayerTwoTurn(playerTwoTurn) {}
 
 function cleanBoard() {
     gameBoard.classList.remove(playerOneClassName);

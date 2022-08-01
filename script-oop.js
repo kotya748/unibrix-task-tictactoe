@@ -33,7 +33,7 @@ startGame();
 restartButton.addEventListener("click", startGame);
 
 function startGame() {
-    playerTwoTurn = false;
+    isPlayerTwoTurn = false;
     resetBoardCells([...cellElements]);
     setBoardHoverClass();
     winningMessageELement.classList.remove("show");

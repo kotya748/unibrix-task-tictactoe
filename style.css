@@ -1,12 +1,6 @@
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
-}
-
 :root {
-    --cell-height: 30vh;
-    --cell-width: 30vh;
+    --cell-height: 14vh;
+    --cell-width: 14vh;
     --mark-size: calc(var(--cell-height) * 0.9);
 }
 
@@ -54,22 +48,6 @@ body {
 .board-hovered_player-two {
     background-image: url(./assets/media/circle-symbol.svg);
 }
-
-/* .board.player-one .board__cell:not(.player-one):not(.player-two):hover,
-.board.player-two .board__cell:not(.player-one):not(.player-two):hover {
-    background-color: lightgray;
-    background-size: var(--mark-size) var(--mark-size);
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.board.player-one .board__cell:not(.player-one):not(.player-two):hover {
-    background-image: url(./assets/media/x-symbol.svg);
-}
-
-.board.player-two .board__cell:not(.player-one):not(.player-two):hover {
-    background-image: url(./assets/media/circle-symbol.svg);
-} */
 
 .board__cell.player-one {
     background-image: url(./assets/media/x-symbol.svg);
