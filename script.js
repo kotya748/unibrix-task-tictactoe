@@ -1,13 +1,11 @@
 "use strict";
-const cellElements = document.getElementsByClassName("board__cell");
 const cellElementsClass = document.getElementsByClassName("board__cell");
+const cellElements = [...cellElementsClass];
 
-const gameBoard = document.getElementById("board");
+const board = document.getElementById("board");
 const winningMessageELement = document.getElementById("victory-window");
 const restartButton = document.getElementById("restart-button");
-const winningMessageTextELement = document.getElementById(
-    "data-winning-message"
-);
+const winningMessageTextELement = document.getElementById("data-winning-message");
 
 const playerOneHoveredClass = "board-hovered_player-one";
 const playerTwoHoveredClass = "board-hovered_player-two";
@@ -36,60 +34,47 @@ restartButton.addEventListener("click", startGame);
 function startGame() {
     winningMessageELement.classList.remove("show");
     isPlayerTwoTurn = false;
-    resetBoardCells([...cellElements]);
+    resetBoardCells(cellElements);
     setBoardHoverClass();
 }
 
 function resetBoardCells(cellsArray) {
     cellsArray.forEach((cell) => {
-        cell.classList.remove(playerOneClassName);
-        cell.classList.remove(playerTwoClassName);
-
+        cleanCell(cell);
         cell.addEventListener("mouseover", hoverCell);
         cell.addEventListener("mouseleave", unhoverCell);
         cell.addEventListener("click", handleClick, { once: true });
     });
 }
 
+function cleanCell(cell) {
+    cell.classList.remove(playerOneClassName);
+    cell.classList.remove(playerTwoClassName);
+}
+
 function hoverCell(event) {
     const cell = event.target;
-    if (
-        cell.classList.contains("player-one") ||
-        cell.classList.contains("player-two")
-    ) {
+    if (cell.classList.contains("player-one") || cell.classList.contains("player-two")) {
         return;
     }
-    cell.classList.add(
-        "board-hovered",
-        `${isPlayerTwoTurn ? playerTwoHoveredClass : playerOneHoveredClass}`
-    );
+    cell.classList.add("board-hovered", `${isPlayerTwoTurn ? playerTwoHoveredClass : playerOneHoveredClass}`);
 }
 
 function unhoverCell(event) {
     const cell = event.target;
     if (cell.classList.contains("board-hovered_player-one")) {
-        event.target.classList.remove(
-            "board-hovered",
-            "board-hovered_player-one"
-        );
+        event.target.classList.remove("board-hovered", "board-hovered_player-one");
     }
     if (cell.classList.contains("board-hovered_player-two")) {
-        event.target.classList.remove(
-            "board-hovered",
-            "board-hovered_player-two"
-        );
+        event.target.classList.remove("board-hovered", "board-hovered_player-two");
     }
 }
 
 function handleClick(e) {
-    console.log("hello");
     const cell = e.target;
-    const currentClass = isPlayerTwoTurn
-        ? playerTwoClassName
-        : playerOneClassName;
+    const currentClass = isPlayerTwoTurn ? playerTwoClassName : playerOneClassName;
 
     placeMark(cell, currentClass);
-
     makeTurn(currentClass);
 }
 
@@ -97,7 +82,7 @@ function makeTurn(currentClass) {
     if (checkWin(currentClass)) {
         endGame(false);
     } else if (isDraw()) {
-        endGame(true);
+        endGame(isDraw());
     } else {
         swapTurns();
         setBoardHoverClass();
@@ -109,14 +94,12 @@ function placeMark(cell, currentClass) {
 }
 
 function checkWin(currentClass) {
-    return winningCombinations.some((winCombination) =>
-        checkWinCombination(winCombination, currentClass)
-    );
+    return winningCombinations.some((winCombination) => checkWinCombination(winCombination, currentClass));
 }
 
 function checkWinCombination(combination, currentClass) {
     return combination.every((cellIndex) => {
-        return cellElements[cellIndex].classList.contains(currentClass);
+        return cellElementsClass[cellIndex].classList.contains(currentClass);
     });
 }
 
@@ -127,33 +110,28 @@ function swapTurns() {
 function setBoardHoverClass() {
     cleanBoard();
     if (isPlayerTwoTurn) {
-        gameBoard.classList.add(playerTwoClassName);
+        board.classList.add(playerTwoClassName);
     } else {
-        gameBoard.classList.add(playerOneClassName);
+        board.classList.add(playerOneClassName);
     }
 }
 
 function cleanBoard() {
-    gameBoard.classList.remove(playerOneClassName);
-    gameBoard.classList.remove(playerTwoClassName);
+    board.classList.remove(playerOneClassName);
+    board.classList.remove(playerTwoClassName);
 }
 
 function endGame(draw) {
     if (draw) {
         winningMessageTextELement.innerText = "Draw!";
     } else {
-        winningMessageTextELement.innerText = `${
-            isPlayerTwoTurn ? playerTwoName : playerOneName
-        }\n Wins!`;
+        winningMessageTextELement.innerText = `${isPlayerTwoTurn ? playerTwoName : playerOneName}\n Wins!`;
     }
     winningMessageELement.classList.add("show");
 }
 
 function isDraw() {
-    return [...cellElements].every((cell) => {
-        return (
-            cell.classList.contains(playerOneClassName) ||
-            cell.classList.contains(playerTwoClassName)
-        );
+    return cellElements.every((cell) => {
+        return cell.classList.contains(playerOneClassName) || cell.classList.contains(playerTwoClassName);
     });
 }

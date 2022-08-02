@@ -49,20 +49,20 @@ body {
     background-image: url(./assets/media/circle-symbol.svg);
 }
 
-.board__cell.player-one {
-    background-image: url(./assets/media/x-symbol.svg);
+.board__cell.player-one,
+.board__cell.player-two {
     background-size: var(--mark-size) var(--mark-size);
     background-repeat: no-repeat;
     background-position: center;
     cursor: not-allowed;
 }
 
+.board__cell.player-one {
+    background-image: url(./assets/media/x-symbol.svg);
+}
+
 .board__cell.player-two {
     background-image: url(./assets/media/circle-symbol.svg);
-    background-size: var(--mark-size) var(--mark-size);
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: not-allowed;
 }
 
 .victory-window {
